@@ -55,7 +55,8 @@ It allows users to perform a wide range of matrix computations with clear algori
 ## Project Structure
 
 matrixlab-pro/ <br>
-│ <br>├── app.py <br>
+│ <br>
+├── app.py <br>
 │ <br>
 ├── utils/ <br>
 │ ├── basic_ops.py <br>
