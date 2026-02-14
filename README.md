@@ -132,23 +132,23 @@ python3 app.py
 ## Screenshots
 
 ### 🔹 Home Page
-Displays the professional UI with operation selection and matrix input.
+Displays the professional UI with operation selection and matrix input. <br>
 ![Home Page](screenshots/home.png)
 
 ### 🔹 Matrix Input & Configuration
-Manual matrix entry with dimension control and random fill options.
+Manual matrix entry with dimension control and random fill options. <br>
 ![Matrix Input](screenshots/matrix_input.png)
 
 ### 🔹 Calculation Result
-Shows computed matrix results with proper formatting.
+Shows computed matrix results with proper formatting. <br>
 ![Result](screenshots/result.png)
 
 ### 🔹 Step-by-Step Explanation
-Explains intermediate steps for better understanding.
+Explains intermediate steps for better understanding. <br>
 ![Steps](screenshots/steps.png)
 
 ### 🔹 Calculation History
-Displays a list of previously performed operations with timestamps, allowing users to track their calculation flow during a session.
+Displays a list of previously performed operations with timestamps, allowing users to track their calculation flow during a session. <br>
 ![Calculation History](screenshots/history.png)
 
 ---
