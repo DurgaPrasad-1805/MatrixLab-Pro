@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixLab Pro | Professional Matrix Calculator</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Chart.js for Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="professional-header">
+        <div class="header-wrapper">
+            <div class="brand-section">
+                <div class="brand-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="brand-info">
+                    <h1>MatrixLab Pro</h1>
+                    <p class="brand-tagline">Professional Matrix Operations Suite</p>
+                </div>
+            </div>
+            <div class="header-stats-group">
+                <div class="stat-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>25+ Operations</span>
+                </div>
+                <div class="stat-item stat-counter">
+                    <i class="fas fa-calculator"></i>
+                    <span id="session-counter">0 Calculated</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- Operation Selection Card -->
+        <section class="pro-card fade-in">
+            <div class="pro-card-header">
+                <div class="header-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>Operation Configuration</h2>
+                </div>
+                <div class="header-controls">
+                    <span class="status-badge" id="category-badge">Select Category</span>
+                    <label class="professional-toggle">
+                        <input type="checkbox" id="step-by-step-toggle">
+                        <span class="toggle-track"></span>
+                        <span class="toggle-label">Step-by-Step Guide</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="operation-config-grid">
+                <div class="config-field">
+                    <label class="field-label">
+                        <i class="fas fa-tags"></i>
+                        Operation Category
+                    </label>
+                    <select id="category" class="pro-select">
+                        <option value="">Select a category...</option>
+                        <option value="basic">Basic Operations</option>
+                        <option value="scalar">Scalar & Properties</option>
+                        <option value="algebra">Linear Algebra</option>
+                        <option value="decompositions">Decompositions</option>
+                        <option value="data">Data Science</option>
+                        <option value="utilities">Utilities</option>
+                    </select>
+                </div>
+
+                <div class="config-field">
+                    <label class="field-label">
+                        <i class="fas fa-cog"></i>
+                        Specific Operation
+                    </label>
+                    <select id="operation" class="pro-select">
+                        <option value="">Select an operation...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="operation-description" id="operation-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Select a category and operation to view details and begin calculation</span>
+            </div>
+        </section>
+
+        <!-- Matrix Input Section -->
+        <section class="pro-card fade-in delay-1">
+            <div class="pro-card-header">
+                <div class="header-title">
+                    <i class="fas fa-table"></i>
+                    <h2>Matrix Input</h2>
+                </div>
+                <div class="view-tabs">
+                    <button class="view-tab active" data-tab="manual">
+                        <i class="fas fa-keyboard"></i>
+                        <span>Manual Entry</span>
+                    </button>
+                    <button class="view-tab" data-tab="examples">
+                        <i class="fas fa-list"></i>
+                        <span>Quick Examples</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Manual Input Tab -->
+            <div id="manual-input" class="tab-panel active">
+                <div class="matrix-workspace">
+                    <!-- Matrix A -->
+                    <div id="matrix-a-card" class="matrix-panel">
+                        <div class="matrix-panel-header">
+                            <h3 class="matrix-title">
+                                <span class="matrix-label">Matrix A</span>
+                                <span class="matrix-size-display" id="matrix-A-dims">2 × 2</span>
+                            </h3>
+                            <div class="matrix-actions">
+                                <button class="action-icon-btn" onclick="randomFillMatrix('A')" title="Fill with random values">
+                                    <i class="fas fa-random"></i>
+                                </button>
+                                <button class="action-icon-btn" onclick="clearMatrix('A')" title="Clear matrix">
+                                    <i class="fas fa-eraser"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="dimension-config">
+                            <div class="dimension-field">
+                                <label>Rows</label>
+                                <input type="number" min="1" max="10" id="rows-A" value="2" class="dimension-input">
+                            </div>
+                            <div class="dimension-field">
+                                <label>Columns</label>
+                                <input type="number" min="1" max="10" id="cols-A" value="2" class="dimension-input">
+                            </div>
+                            <button class="generate-btn" onclick="generateMatrix('A')">
+                                <i class="fas fa-th"></i>
+                                Generate Grid
+                            </button>
+                        </div>
+                        
+                        <div id="matrix-A" class="matrix-grid-wrapper"></div>
+                    </div>
+
+                    <!-- Matrix B -->
+                    <div id="matrix-b-card" class="matrix-panel" style="display: none;">
+                        <div class="matrix-panel-header">
+                            <h3 class="matrix-title">
+                                <span class="matrix-label">Matrix B</span>
+                                <span class="matrix-size-display" id="matrix-B-dims">2 × 2</span>
+                            </h3>
+                            <div class="matrix-actions">
+                                <button class="action-icon-btn" onclick="randomFillMatrix('B')" title="Fill with random values">
+                                    <i class="fas fa-random"></i>
+                                </button>
+                                <button class="action-icon-btn" onclick="clearMatrix('B')" title="Clear matrix">
+                                    <i class="fas fa-eraser"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="dimension-config">
+                            <div class="dimension-field">
+                                <label>Rows</label>
+                                <input type="number" min="1" max="10" id="rows-B" value="2" class="dimension-input">
+                            </div>
+                            <div class="dimension-field">
+                                <label>Columns</label>
+                                <input type="number" min="1" max="10" id="cols-B" value="2" class="dimension-input">
+                            </div>
+                            <button class="generate-btn" onclick="generateMatrix('B')">
+                                <i class="fas fa-th"></i>
+                                Generate Grid
+                            </button>
+                        </div>
+                        
+                        <div id="matrix-B" class="matrix-grid-wrapper"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Examples Tab -->
+            <div id="examples-input" class="tab-panel">
+                <div class="examples-showcase">
+                    <div class="example-item" onclick="loadExample('2x2')">
+                        <div class="example-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h4>2×2 Matrix</h4>
+                        <p>Basic square matrix</p>
+                    </div>
+                    <div class="example-item" onclick="loadExample('3x3')">
+                        <div class="example-icon">
+                            <i class="fas fa-th"></i>
+                        </div>
+                        <h4>3×3 Matrix</h4>
+                        <p>For determinants & algebra</p>
+                    </div>
+                    <div class="example-item" onclick="loadExample('identity')">
+                        <div class="example-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h4>Identity Matrix</h4>
+                        <p>2×2 Identity matrix</p>
+                    </div>
+                    <div class="example-item" onclick="loadExample('symmetric')">
+                        <div class="example-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h4>Symmetric</h4>
+                        <p>3×3 Symmetric matrix</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Extra Inputs Section -->
+        <section id="extra-input-section" class="pro-card fade-in delay-2" style="display:none;">
+            <div class="pro-card-header">
+                <div class="header-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>Additional Parameters</h2>
+                </div>
+            </div>
+            
+            <div class="extra-params-container">
+                <div id="scalar-input" class="param-field" style="display:none;">
+                    <label class="field-label">
+                        <i class="fas fa-hashtag"></i>
+                        Scalar Value
+                    </label>
+                    <input type="number" id="scalar-value" class="pro-input" step="0.01" placeholder="Enter scalar multiplier">
+                    <span class="field-hint">The value to multiply each matrix element by</span>
+                </div>
+
+                <div id="identity-input" class="param-field" style="display:none;">
+                    <label class="field-label">
+                        <i class="fas fa-cube"></i>
+                        Matrix Size (n × n)
+                    </label>
+                    <input type="number" id="identity-size" class="pro-input" min="1" max="10" value="3">
+                    <span class="field-hint">Size of the square identity matrix to generate</span>
+                </div>
+
+                <div id="zero-input" class="param-field" style="display:none;">
+                    <div class="param-row">
+                        <div class="param-col">
+                            <label class="field-label">
+                                <i class="fas fa-arrows-alt-v"></i>
+                                Number of Rows
+                            </label>
+                            <input type="number" id="zero-rows" class="pro-input" min="1" max="10" value="3">
+                        </div>
+                        <div class="param-col">
+                            <label class="field-label">
+                                <i class="fas fa-arrows-alt-h"></i>
+                                Number of Columns
+                            </label>
+                            <input type="number" id="zero-cols" class="pro-input" min="1" max="10" value="3">
+                        </div>
+                    </div>
+                    <span class="field-hint">Dimensions of the zero matrix to generate</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-bar fade-in delay-3">
+            <button id="calculate-btn" class="btn-action btn-primary">
+                <i class="fas fa-calculator"></i>
+                <span>Calculate Result</span>
+                <div class="loading-spinner" style="display:none;"></div>
+            </button>
+            <button id="reset-btn" class="btn-action btn-secondary">
+                <i class="fas fa-redo-alt"></i>
+                <span>Reset All</span>
+            </button>
+            <button class="btn-action btn-outline" onclick="swapMatrices()">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Swap A ↔ B</span>
+            </button>
+            <button class="btn-action btn-outline" onclick="clearAllMatrices()">
+                <i class="fas fa-trash-alt"></i>
+                <span>Clear All</span>
+            </button>
+        </section>
+
+        <!-- Results Section -->
+        <section id="result-section" class="pro-card fade-in delay-4" style="display: none;">
+            <div class="pro-card-header">
+                <div class="header-title">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Calculation Results</h2>
+                </div>
+                <div class="view-tabs">
+                    <button class="result-view-tab active" data-view="matrix">
+                        <i class="fas fa-table"></i>
+                        <span>Matrix View</span>
+                    </button>
+                    <button class="result-view-tab" data-view="heatmap">
+                        <i class="fas fa-fire"></i>
+                        <span>Heatmap</span>
+                    </button>
+                    <button class="result-view-tab" id="steps-tab" data-view="steps" style="display: none;">
+                        <i class="fas fa-list-ol"></i>
+                        <span>Solution Steps</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Matrix Result View -->
+            <div id="result-output" class="result-view active-result-view">
+                <div class="empty-result-state">
+                    <i class="fas fa-calculator"></i>
+                    <p>Calculation results will be displayed here</p>
+                </div>
+            </div>
+            
+            <!-- Heatmap View -->
+            <div id="heatmap-view" class="result-view">
+                <div id="visualization-wrapper">
+                    <canvas id="matrix-heatmap"></canvas>
+                </div>
+            </div>
+            
+            <!-- Steps View -->
+            <div id="steps-output" class="result-view"></div>
+        </section>
+
+        <!-- History Section -->
+        <section class="pro-card fade-in delay-5">
+            <div class="pro-card-header">
+                <div class="header-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Calculation History</h2>
+                </div>
+                <button class="clear-history-btn" onclick="clearHistory()" title="Clear all history">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear History
+                </button>
+            </div>
+            <div class="history-list-wrapper">
+                <ul id="history-list" class="history-list">
+                    <li class="history-empty-state">
+                        <i class="fas fa-clock"></i>
+                        <span>No calculations performed yet</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-circle"></div>
+            <p class="loading-text">Processing calculation...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast-notification">
+        <i class="toast-icon fas fa-check-circle"></i>
+        <span id="toast-message" class="toast-message"></span>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
